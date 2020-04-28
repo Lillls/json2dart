@@ -6,16 +6,23 @@ import com.xiaou.plugin.json2dart.underlineToHump
 
 
 object DartClassUtils {
-    const val IMPORT_CONSTANT = """import 'package:json_annotation/json_annotation.dart'; """
+    private const val IMPORT_CONSTANT = """import 'package:json_annotation/json_annotation.dart'; """
 
-    fun importChildClassStr(dartClass: DartClassDefinition): String {
-        return "import '${dartClass.fileName}.dart';"
+    fun insertClassHead(fileName: String, originalContent: String): String {
+        val sb = StringBuilder()
+        sb.append(IMPORT_CONSTANT)
+        sb.append("\n")
+        sb.append("\n")
+        sb.append(partStr(fileName))
+        sb.append("\n")
+        sb.append("\n")
+        sb.append(originalContent)
+        return sb.toString()
     }
 
-    fun partStr(fileName: String): String {
+    private fun partStr(fileName: String): String {
         return "part '$fileName.g.dart'; "
     }
-
 
     fun dartClassStartStr(className: String): String {
         val sb = StringBuilder()
@@ -50,7 +57,7 @@ object DartClassUtils {
             constructorStr.append(", ")
         }
 
-        if (constructorStr.isEmpty()) {
+        if (constructorStr.isEmpty() && dartClass.childClassDefinition.isNotEmpty()) {
             constructorStr.append("{")
         }
 

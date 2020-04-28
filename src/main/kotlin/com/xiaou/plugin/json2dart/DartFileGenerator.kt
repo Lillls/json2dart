@@ -10,7 +10,7 @@ import com.xiaou.plugin.json2dart.utils.DartClassUtils
 
 class DartFileGenerator(private val project: Project, private val directory: PsiDirectory) {
 
-    private fun generateDarFile(fileName: String, classCodeContent: String) {
+    fun generateDarFile(fileName: String, classCodeContent: String) {
         val psiFileFactory = PsiFileFactory.getInstance(project)
 
         CommandProcessor.getInstance().executeCommand(directory.project, {
@@ -22,18 +22,8 @@ class DartFileGenerator(private val project: Project, private val directory: Psi
         }, "FlutterJsonBeanFactory", "FlutterJsonBeanFactory")
     }
 
-    fun dartClass2File(dartClass: DartClassDefinition) {
+    fun classDefinition2ClassCode(dartClass: DartClassDefinition): String {
         val sb = StringBuilder()
-        sb.append(DartClassUtils.IMPORT_CONSTANT)
-        sb.append("\n")
-        dartClass.childClassDefinition.forEach {
-            sb.append(DartClassUtils.importChildClassStr(it))
-            sb.append("\n")
-        }
-        sb.append("\n")
-        sb.append(DartClassUtils.partStr(dartClass.fileName))
-        sb.append("\n")
-        sb.append("\n")
         sb.append(DartClassUtils.dartClassStartStr(dartClass.className))
         sb.append("\n")
         dartClass.fields.forEach {
@@ -42,7 +32,6 @@ class DartFileGenerator(private val project: Project, private val directory: Psi
         }
         dartClass.childClassDefinition.forEach {
             sb.append(DartClassUtils.childClassDefinitionStr(it))
-            dartClass2File(it)
             sb.append("\n")
         }
         sb.append("\n")
@@ -56,7 +45,12 @@ class DartFileGenerator(private val project: Project, private val directory: Psi
         sb.append("\n")
         sb.append("\n")
         sb.append(DartClassUtils.dartClassEndStr())
-        generateDarFile(dartClass.fileName, sb.toString())
+        sb.append("\n")
+        sb.append("\n")
+        dartClass.childClassDefinition.forEach {
+            sb.append(classDefinition2ClassCode(it))
+        }
+        return sb.toString()
     }
 
 }
