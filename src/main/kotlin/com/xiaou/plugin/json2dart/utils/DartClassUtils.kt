@@ -2,7 +2,6 @@ package com.xiaou.plugin.json2dart.utils
 
 import com.xiaou.plugin.json2dart.DartClassDefinition
 import com.xiaou.plugin.json2dart.FieldDefinition
-import com.xiaou.plugin.json2dart.underlineToHump
 
 
 object DartClassUtils {
@@ -36,12 +35,12 @@ object DartClassUtils {
         val sb = StringBuilder()
         sb.append("  @JsonKey(name: \"${field.fieldName}\")")
         sb.append("\n")
-        sb.append("  ${field.fieldType} ${underlineToHump(field.fieldName)};")
+        sb.append("  ${field.fieldType} ${field.fieldName.underline2Hump()};")
         return sb.toString()
     }
 
     fun childClassDefinitionStr(dartClass: DartClassDefinition): String {
-        return "  ${dartClass.className} ${underlineToHump(dartClass.fileName)};"
+        return "  ${dartClass.className} ${dartClass.fileName.underline2Hump()};"
     }
 
     fun constructorStr(dartClass: DartClassDefinition): String {
@@ -53,7 +52,7 @@ object DartClassUtils {
             constructorStr.append("{")
         }
         dartClass.fields.forEach {
-            constructorStr.append("this.${underlineToHump(it.fieldName)}")
+            constructorStr.append("this.${it.fieldName.underline2Hump()}")
             constructorStr.append(", ")
         }
 
@@ -62,7 +61,7 @@ object DartClassUtils {
         }
 
         dartClass.childClassDefinition.forEach {
-            constructorStr.append("this.${underlineToHump(it.fileName)}")
+            constructorStr.append("this.${it.fileName.underline2Hump()}")
             constructorStr.append(", ")
         }
         if (constructorStr.isNotEmpty()) {

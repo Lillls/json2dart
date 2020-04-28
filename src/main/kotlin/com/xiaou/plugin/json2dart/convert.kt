@@ -31,25 +31,3 @@ fun inputJson2Map(json: String): Map<String, Any> {
 }
 
 
-/**
- *
- * 下划线的命名方式转驼峰
- * matcher.group用法.
- * group(0),符合整个正则串
- * group(1),符合一个正则串一个()
- * 例如 正则为 _([a-z]),传入is_bind
- * group(0) 为 _b,  符合整个正则
- * group(1) 为  b,  符合一个正则串一个()
- *
- */
-fun underlineToHump(str: String): String {
-    val linePattern = Pattern.compile("_([a-z])")
-    val matcher = linePattern.matcher(str)
-    val sb = StringBuffer()
-    while (matcher.find()) {
-        matcher.appendReplacement(sb, matcher.group(1).toUpperCase())
-    }
-    matcher.appendTail(sb)
-    return sb.toString()
-}
-

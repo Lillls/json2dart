@@ -1,6 +1,7 @@
 package com.xiaou.plugin.json2dart
 
 import com.xiaou.plugin.json2dart.utils.toUpperCaseFirstOne
+import com.xiaou.plugin.json2dart.utils.underline2Hump
 
 class DartClassDefinition(
     val fileName: String,
@@ -9,7 +10,7 @@ class DartClassDefinition(
 ) {
     val className: String = fileName
         get() {
-            return underlineToHump(field).toUpperCaseFirstOne()
+            return field.underline2Hump().toUpperCaseFirstOne()
         }
 }
 

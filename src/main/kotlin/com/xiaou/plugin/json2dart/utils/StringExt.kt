@@ -19,54 +19,36 @@ fun String.toLowerCaseFirstOne(): String {
         StringBuilder().append(Character.toLowerCase(this[0])).append(this.substring(1)).toString()
 }
 
-//大写字母转下划线和小写
-fun String.upperCharToUnderLine(): String {
-    val p = Pattern.compile("[A-Z]")
-    if (this == "") {
-        return ""
+/**
+ *
+ * 下划线的命名方式转驼峰
+ * matcher.group用法.
+ * group(0),符合整个正则串
+ * group(1),符合一个正则串一个()
+ * 例如 正则为 _([a-z]),传入is_bind
+ * group(0) 为 _b,  符合整个正则
+ * group(1) 为  b,  符合一个正则串一个()
+ *
+ */
+fun String.underline2Hump(): String {
+    val linePattern = Pattern.compile("_([a-z])")
+    val matcher = linePattern.matcher(this)
+    val sb = StringBuffer()
+    while (matcher.find()) {
+        matcher.appendReplacement(sb, matcher.group(1).toUpperCase())
     }
-    val builder = StringBuilder(this)
-    val mc = p.matcher(this)
-    var i = 0
-    while (mc.find()) {
-        builder.replace(mc.start() + i, mc.end() + i, "_" + mc.group().toLowerCase())
-        i++
-    }
-    if ('_' == builder[0]) {
-        builder.deleteCharAt(0)
-    }
-    return builder.toString()
+    matcher.appendTail(sb)
+    return sb.toString()
 }
 
-//下划线和小写转大写字母
-fun upperTable(str: String): String {
-    // 字符串缓冲区
-    val sbf = StringBuilder()
-    // 如果字符串包含 下划线
-    if (str.contains("_")) {
-        // 按下划线来切割字符串为数组
-        val split = str.split("_".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-        // 循环数组操作其中的字符串
-        var i = 0
-        val index = split.size
-        while (i < index) {
-            // 递归调用本方法
-            val upperTable = upperTable(split[i])
-            // 添加到字符串缓冲区
-            sbf.append(upperTable)
-            i++
-        }
-    } else {// 字符串不包含下划线
-        // 转换成字符数组
-        val ch = str.toCharArray()
-        // 判断首字母是否是字母
-        if (ch[0] in 'a'..'z') {
-            // 利用ASCII码实现大写
-            ch[0] = (ch[0].toInt() - 32).toChar()
-        }
-        // 添加进字符串缓存区
-        sbf.append(ch)
+//驼峰命名转_命名
+fun String.hump2Underline(): String {
+    val humpPattern = Pattern.compile("\\B(\\p{Upper})(\\p{Lower}*)")
+    val matcher = humpPattern.matcher(this)
+    val sb = StringBuffer()
+    while (matcher.find()) {
+        matcher.appendReplacement(sb, "_" + matcher.group(0).toLowerCase());
     }
-    // 返回
-    return sbf.toString()
+    matcher.appendTail(sb)
+    return sb.toString()
 }
