@@ -9,8 +9,8 @@ import java.util.*
 
 
 /**
- * 为了解决number类型在解析的过程中
- * int会被转成double
+ * Resolve the number type in the process of parsing
+ * int will be converted to double
  */
 class MapTypeAdapter : TypeAdapter<Any>() {
 

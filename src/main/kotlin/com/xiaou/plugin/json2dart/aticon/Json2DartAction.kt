@@ -23,7 +23,7 @@ class Json2DartAction : AnAction() {
         val project = event.project ?: return
         val dataContext = event.dataContext
         val module = LangDataKeys.MODULE.getData(dataContext) ?: return
-        //获取右键所在的文件夹
+        //Get the folder selected by the right mouse button
         val directory = when (val navigationTable = LangDataKeys.NAVIGATABLE.getData(dataContext)) {
             is PsiDirectory -> navigationTable
             is PsiFile -> navigationTable.containingDirectory
@@ -38,7 +38,7 @@ class Json2DartAction : AnAction() {
         } ?: return
 
         JsonInputDialog(project) {
-            //去除文件后缀名
+            //Remove the file suffix
             var fileName = it.inputClassName.split(".")[0]
             fileName = fileName.hump2Underline().toLowerCaseFirstOne()
             if (containsFile(directory, fileName)) {
