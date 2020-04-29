@@ -58,6 +58,6 @@ class Json2DartAction : AnAction() {
 
     private fun containsFile(directory: PsiDirectory, fileName: String): Boolean {
         return directory.files.filter { it.name.endsWith(".dart") }
-            .firstOrNull { fileName.equals(it.name, true) } != null
+            .firstOrNull { fileName.equals(it.name.split(".dart")[0], true) } != null
     }
 }
