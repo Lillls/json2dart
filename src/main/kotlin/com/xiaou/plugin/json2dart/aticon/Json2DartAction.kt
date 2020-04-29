@@ -13,6 +13,8 @@ import com.xiaou.plugin.json2dart.inputJson2Map
 import com.xiaou.plugin.json2dart.map2DartClassDefinition
 import com.xiaou.plugin.json2dart.ui.JsonInputDialog
 import com.xiaou.plugin.json2dart.utils.DartClassUtils
+import com.xiaou.plugin.json2dart.utils.hump2Underline
+import com.xiaou.plugin.json2dart.utils.toLowerCaseFirstOne
 
 
 class Json2DartAction : AnAction() {
@@ -37,8 +39,8 @@ class Json2DartAction : AnAction() {
 
         JsonInputDialog(project) {
             //去除文件后缀名
-            val fileName = it.inputClassName.split(".")[0]
-            //TODO 转为符合Dart命名规范的文件名字
+            var fileName = it.inputClassName.split(".")[0]
+            fileName = fileName.hump2Underline().toLowerCaseFirstOne()
             if (containsFile(directory, fileName)) {
                 Messages.showInfoMessage(project, "The $fileName.dart already exists", "Info")
                 return@JsonInputDialog
