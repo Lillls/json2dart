@@ -16,13 +16,15 @@ fun map2CustomClassDefinition(fileName: String, map: Map<String, Any>): CustomCl
             }
             is List<*> -> {
                 val listValue = it.value as List<*>
-                val firstValue = listValue.first()
-                if (firstValue is Map<*, *>) {
-                    val customClassType = map2CustomClassDefinition(it.key, firstValue as Map<String, Any>)
-                    fieldList.add(ListClassType(it.key, customClassType))
-                } else {
-                    fieldList.add(ListClassType(it.key, InternalClassType(it.key, getTypeName(it.key))))
+                listValue.firstOrNull()?.apply {
+                    if (this is Map<*, *>) {
+                        val customClassType = map2CustomClassDefinition(it.key, this as Map<String, Any>)
+                        fieldList.add(ListClassType(it.key, customClassType))
+                    } else {
+                        fieldList.add(ListClassType(it.key, InternalClassType(it.key, getTypeName(this))))
+                    }
                 }
+
             }
             else -> {
                 val typeName = getTypeName(it.value)
