@@ -46,7 +46,7 @@ object DartClassUtils {
 
     fun constructorStr(dartClass: CustomClassType): String {
         val sb = StringBuilder()
-        sb.append("  ${dartClass.name}(")
+        sb.append("  ${dartClass.typeName}(")
 
         val constructorStr = StringBuilder()
         if (dartClass.fieldList.isNotEmpty()) {

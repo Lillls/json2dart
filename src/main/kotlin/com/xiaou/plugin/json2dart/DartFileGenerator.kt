@@ -31,9 +31,9 @@ class DartFileGenerator(private val project: Project, private val directory: Psi
         sb.append("\n")
         sb.append(DartClassUtils.constructorStr(dartClass))
         sb.append("\n")
-        sb.append(DartClassUtils.factoryConstructorStr(dartClass.name))
+        sb.append(DartClassUtils.factoryConstructorStr(dartClass.typeName))
         sb.append("\n")
-        sb.append(DartClassUtils.toJsonStr(dartClass.name))
+        sb.append(DartClassUtils.toJsonStr(dartClass.typeName))
         sb.append(DartClassUtils.dartClassEndStr())
         sb.append("\n")
         dartClass.fieldList.forEach {
