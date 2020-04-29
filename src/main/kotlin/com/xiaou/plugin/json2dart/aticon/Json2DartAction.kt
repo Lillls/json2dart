@@ -9,8 +9,8 @@ import com.intellij.psi.PsiDirectory
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiManager
 import com.xiaou.plugin.json2dart.DartFileGenerator
-import com.xiaou.plugin.json2dart.inputJson2Map
-import com.xiaou.plugin.json2dart.map2DartClassDefinition
+import com.xiaou.plugin.json2dart.parseInputJson
+import com.xiaou.plugin.json2dart.map2CustomClassDefinition
 import com.xiaou.plugin.json2dart.ui.JsonInputDialog
 import com.xiaou.plugin.json2dart.utils.DartClassUtils
 import com.xiaou.plugin.json2dart.utils.hump2Underline
@@ -45,10 +45,10 @@ class Json2DartAction : AnAction() {
                 Messages.showInfoMessage(project, "The $fileName.dart already exists", "Info")
                 return@JsonInputDialog
             }
-            val map = inputJson2Map(it.inputJson)
-            val dartClassDefinition = map2DartClassDefinition(fileName, map)
+            val map = parseInputJson(it.inputJson)
+            val dartClassDefinition = map2CustomClassDefinition(fileName, map)
             val generator = DartFileGenerator(project, directory)
-            val originalClassCodeContent = generator.classDefinition2ClassCode(dartClassDefinition)
+            val originalClassCodeContent = generator.class2Code(dartClassDefinition)
             val codeContent = DartClassUtils.insertClassHead(fileName, originalClassCodeContent)
             generator.generateDarFile(fileName, codeContent)
 

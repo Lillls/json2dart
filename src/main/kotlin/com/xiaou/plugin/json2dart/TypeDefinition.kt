@@ -3,16 +3,24 @@ package com.xiaou.plugin.json2dart
 import com.xiaou.plugin.json2dart.utils.toUpperCaseFirstOne
 import com.xiaou.plugin.json2dart.utils.underline2Hump
 
-class DartClassDefinition(
-    val fileName: String,
-    val fields: List<FieldDefinition>,
-    val childClassDefinition: List<DartClassDefinition>
-) {
-    val className: String = fileName
-        get() {
-            return field.underline2Hump().toUpperCaseFirstOne()
-        }
+abstract class TypeDefinition(val name: String, val typeName: String)
+
+/**
+ * custom class type
+ * need generate class code
+ */
+class CustomClassType(
+    name: String,
+    val fieldList: List<TypeDefinition>
+) : TypeDefinition(name, name.underline2Hump().toUpperCaseFirstOne()) {
 }
 
+/**
+ * dart language internal class type
+ * like int,double,String,bool
+ * don't need generate class code
+ */
+class InternalClassType(name: String, fieldType: String) : TypeDefinition(name, fieldType)
 
-data class FieldDefinition(val fieldName: String, val fieldType: String)
+class ListClassType(name: String, val genericsType: TypeDefinition) :
+    TypeDefinition(name, "List<${genericsType.typeName}>")

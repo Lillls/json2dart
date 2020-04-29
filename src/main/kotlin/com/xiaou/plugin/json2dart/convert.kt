@@ -4,26 +4,37 @@ import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.xiaou.plugin.json2dart.utils.MapTypeAdapter
 import com.xiaou.plugin.json2dart.utils.getTypeName
-import java.util.regex.Pattern
 
-fun map2DartClassDefinition(fileName: String, map: Map<String, Any>): DartClassDefinition {
-    val fieldList = mutableListOf<FieldDefinition>()
-    val childClassDefinition = mutableListOf<DartClassDefinition>()
-
+@Suppress("UNCHECKED_CAST")
+fun map2CustomClassDefinition(fileName: String, map: Map<String, Any>): CustomClassType {
+    val fieldList = mutableListOf<TypeDefinition>()
     map.entries.forEach {
-        if (it.value is Map<*, *>) {
-            val dartClassDefinition = map2DartClassDefinition(it.key, it.value as Map<String, Any>)
-            childClassDefinition.add(dartClassDefinition)
-        } else {
-            val typeName = getTypeName(it.value)
-            val fieldTypeDefinition = FieldDefinition(it.key, typeName)
-            fieldList.add(fieldTypeDefinition)
+        when (it.value) {
+            is Map<*, *> -> {
+                val customClassType = map2CustomClassDefinition(it.key, it.value as Map<String, Any>)
+                fieldList.add(customClassType)
+            }
+            is List<*> -> {
+                val listValue = it.value as List<*>
+                val firstValue = listValue.first()
+                if (firstValue is Map<*, *>) {
+                    val customClassType = map2CustomClassDefinition(it.key, firstValue as Map<String, Any>)
+                    fieldList.add(ListClassType(it.key, customClassType))
+                } else {
+                    fieldList.add(ListClassType(it.key, InternalClassType(it.key, getTypeName(it.key))))
+                }
+            }
+            else -> {
+                val typeName = getTypeName(it.value)
+                val internalClassType = InternalClassType(it.key, typeName)
+                fieldList.add(internalClassType)
+            }
         }
     }
-    return DartClassDefinition(fileName, fieldList, childClassDefinition)
+    return CustomClassType(fileName, fieldList)
 }
 
-fun inputJson2Map(json: String): Map<String, Any> {
+fun parseInputJson(json: String): Map<String,Any> {
     val gson = GsonBuilder()
         .registerTypeAdapter(object : TypeToken<Map<String, Any>>() {}.type, MapTypeAdapter()).create()
     val originalStr = json.trim()

@@ -19,37 +19,34 @@ class DartFileGenerator(private val project: Project, private val directory: Psi
                     psiFileFactory.createFileFromText("$fileName.dart", DartFileType.INSTANCE, classCodeContent)
                 directory.add(file)
             }
-        }, "FlutterJsonBeanFactory", "FlutterJsonBeanFactory")
+        }, "JSON to Dart Class", "JSON to Dart Class")
     }
 
-    fun classDefinition2ClassCode(dartClass: DartClassDefinition): String {
+    fun class2Code(dartClass: CustomClassType): String {
+        val needGenerateCode = mutableListOf<CustomClassType>()
+
         val sb = StringBuilder()
-        sb.append(DartClassUtils.dartClassStartStr(dartClass.className))
-        sb.append("\n")
-        dartClass.fields.forEach {
-            sb.append(DartClassUtils.fieldsStr(it))
-            sb.append("\n")
-        }
-        dartClass.childClassDefinition.forEach {
-            sb.append(DartClassUtils.childClassDefinitionStr(it))
-            sb.append("\n")
-        }
+        sb.append(DartClassUtils.dartClassStartStr(dartClass.typeName))
+        sb.append(DartClassUtils.fieldsStr(dartClass.fieldList))
         sb.append("\n")
         sb.append(DartClassUtils.constructorStr(dartClass))
         sb.append("\n")
+        sb.append(DartClassUtils.factoryConstructorStr(dartClass.name))
         sb.append("\n")
-        sb.append(DartClassUtils.factoryConstructorStr(dartClass.className))
-        sb.append("\n")
-        sb.append("\n")
-        sb.append(DartClassUtils.toJsonStr(dartClass.className))
-        sb.append("\n")
-        sb.append("\n")
+        sb.append(DartClassUtils.toJsonStr(dartClass.name))
         sb.append(DartClassUtils.dartClassEndStr())
         sb.append("\n")
-        sb.append("\n")
-        dartClass.childClassDefinition.forEach {
-            sb.append(classDefinition2ClassCode(it))
+        dartClass.fieldList.forEach {
+            if (it is CustomClassType) {
+                needGenerateCode.add(it)
+            } else if (it is ListClassType && it.genericsType is CustomClassType) {
+                needGenerateCode.add(it.genericsType)
+            }
         }
+        needGenerateCode.forEach {
+            sb.append(class2Code(it))
+        }
+
         return sb.toString()
     }
 

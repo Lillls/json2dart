@@ -1,7 +1,7 @@
 package com.xiaou.plugin.json2dart.utils
 
-import com.xiaou.plugin.json2dart.DartClassDefinition
-import com.xiaou.plugin.json2dart.FieldDefinition
+import com.xiaou.plugin.json2dart.CustomClassType
+import com.xiaou.plugin.json2dart.TypeDefinition
 
 
 object DartClassUtils {
@@ -28,63 +28,53 @@ object DartClassUtils {
         sb.append("@JsonSerializable(nullable: true)")
         sb.append("\n")
         sb.append("class $className {")
-        return sb.toString()
-    }
-
-    fun fieldsStr(field: FieldDefinition): String {
-        val sb = StringBuilder()
-        sb.append("  @JsonKey(name: \"${field.fieldName}\")")
         sb.append("\n")
-        sb.append("  ${field.fieldType} ${field.fieldName.underline2Hump()};")
         return sb.toString()
     }
 
-    fun childClassDefinitionStr(dartClass: DartClassDefinition): String {
-        return "  ${dartClass.className} ${dartClass.fileName.underline2Hump()};"
+    fun fieldsStr(fields: List<TypeDefinition>): String {
+        val sb = StringBuilder()
+        fields.forEach {
+            sb.append("  @JsonKey(name: \"${it.name}\")")
+            sb.append("\n")
+            sb.append("  ${it.typeName} ${it.name.underline2Hump()};")
+            sb.append("\n")
+        }
+        return sb.toString()
     }
 
-    fun constructorStr(dartClass: DartClassDefinition): String {
+
+    fun constructorStr(dartClass: CustomClassType): String {
         val sb = StringBuilder()
-        sb.append("  ${dartClass.className}(")
+        sb.append("  ${dartClass.name}(")
 
         val constructorStr = StringBuilder()
-        if (dartClass.fields.isNotEmpty()) {
+        if (dartClass.fieldList.isNotEmpty()) {
             constructorStr.append("{")
-        }
-        dartClass.fields.forEach {
-            constructorStr.append("this.${it.fieldName.underline2Hump()}")
-            constructorStr.append(", ")
-        }
-
-        if (constructorStr.isEmpty() && dartClass.childClassDefinition.isNotEmpty()) {
-            constructorStr.append("{")
-        }
-
-        dartClass.childClassDefinition.forEach {
-            constructorStr.append("this.${it.fileName.underline2Hump()}")
-            constructorStr.append(", ")
-        }
-        if (constructorStr.isNotEmpty()) {
+            dartClass.fieldList.forEach {
+                constructorStr.append("this.${it.name.underline2Hump()}")
+                constructorStr.append(", ")
+            }
             constructorStr.setLength(constructorStr.length - 2)
             constructorStr.append("}")
         }
         sb.append(constructorStr)
         sb.append(")")
         sb.append(";")
+        sb.append("\n")
         return sb.toString()
     }
 
     fun factoryConstructorStr(className: String): String {
-        return "  factory $className.fromJson(Map<String, dynamic> json) => _$${className}FromJson(json);"
+        return "  factory $className.fromJson(Map<String, dynamic> json) => _$${className}FromJson(json);\n"
     }
 
     fun toJsonStr(className: String): String {
-        return "  Map<String, dynamic> toJson() => _$${className}ToJson(this);"
+        return "  Map<String, dynamic> toJson() => _$${className}ToJson(this);\n"
     }
 
-
     fun dartClassEndStr(): String {
-        return "}"
+        return "}\n"
     }
 
 }
