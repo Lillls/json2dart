@@ -26,7 +26,7 @@ If you don't have json_serializable dependency，you nee dependency json_seriali
 
 And then 
 
-![](https://xiaoyu-ipic.oss-cn-beijing.aliyuncs.com/2020-04-30%2017_17_19.gif)
+![](https://github.com/Lillls/json2dart/blob/master/resource/2020-04-30%2017_17_19%20(2).gif)
 
 Run the shell after generate the dart file
 
