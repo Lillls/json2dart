@@ -1,6 +1,6 @@
 <idea-plugin>
     <id>com.xiaoyu.Json2Dart</id>
-    <name>JSON to Dart Class</name>
+    <name>JSON to Dart Plus</name>
     <vendor email="im.lixiaoyu@gmail.com" url="https://www.cmcm.com/">CheetahMobile</vendor>
 
     <description><![CDATA[
@@ -8,7 +8,7 @@
 
     <p>Instructions see <a href="">json_serializable</a></p>
     ]]></description>
-    
+
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
          on how to target different products -->
     <!-- uncomment to enable plugin in all products
