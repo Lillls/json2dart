@@ -36,11 +36,15 @@ fun map2CustomClassDefinition(fileName: String, map: Map<String, Any>): CustomCl
     return CustomClassType(fileName, fieldList)
 }
 
-fun parseInputJson(json: String): Map<String,Any> {
+fun parseInputJson(json: String): Map<String, Any> {
     val gson = GsonBuilder()
         .registerTypeAdapter(object : TypeToken<Map<String, Any>>() {}.type, MapTypeAdapter()).create()
     val originalStr = json.trim()
-    return gson.fromJson(originalStr, object : TypeToken<Map<String, Any>>() {}.type)
+    return if (originalStr.startsWith("[")) {
+        val arrayJson = gson.fromJson<List<Any>>(originalStr, object : TypeToken<List<Any>>() {}.type)
+        parseInputJson(gson.toJson(arrayJson.first()).toString())
+    } else {
+        gson.fromJson(originalStr, object : TypeToken<Map<String, Any>>() {}.type)
+    }
+
 }
-
-
