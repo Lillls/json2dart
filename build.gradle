@@ -21,20 +21,23 @@ dependencies {
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
     version '2019.2.3'
+    plugins += 'Dart:192.7761'
 }
 
 compileKotlin {
     kotlinOptions.jvmTarget = "1.8"
 }
+
 compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
 }
+
 patchPluginXml {
-    changeNotes """
-      Add change notes here.<br>
-      <em>most HTML tags may be used</em>"""
+    sinceBuild '183.0'
 }
 
+publishPlugin {
+    token publishToken
+    channels publishChannels
+}
 
-//intellij.version = ideaVersion
-intellij.plugins += "Dart:192.5728.98"
