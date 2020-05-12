@@ -22,6 +22,7 @@
     <actions>
         <!-- Add your actions here -->
         <action id="Json2Dart" class="com.xiaou.plugin.json2dart.aticon.Json2DartAction" text="Json2Dart"
+                icon="/icons/json_icon.png"
                 description="Generate dart file from JSON">
             <add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewFile"/>
         </action>
