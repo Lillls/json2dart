@@ -4,9 +4,14 @@
     <vendor email="im.lixiaoyu@gmail.com" url="https://www.cmcm.com/">CheetahMobile</vendor>
 
     <description><![CDATA[
-    <h2>A plugin that can convert json into a dart file that conforms to the json_serializable rule</h2>
-
-    <p>Instructions see <a href="">json_serializable</a></p>
+    <h3> A plugin that can convert json into a dart file that conforms to the json_serializable rule</h3>
+    <ol>
+    <li>Dependency <a href="https://pub.dev/packages/json_serializable">json_serializable</a></li><br>
+    <li>Generate dart file</li><br>
+    <p><img src="https://xiaoyu-ipic.oss-cn-beijing.aliyuncs.com/blog/20200512112501.png"></p><br>
+    <li>Using built-in commands</li><br>
+    <p><code> flutter packages pub run build_runner build --delete-conflicting-outputs</code></p>
+    </ol>
     ]]></description>
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
