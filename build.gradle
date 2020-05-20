@@ -24,6 +24,12 @@ intellij {
     plugins += 'Dart:192.7761'
 }
 
+sourceSets {
+    main.java.srcDirs = [
+            "src/main/src"
+    ]
+}
+
 compileKotlin {
     kotlinOptions.jvmTarget = "1.8"
 }

@@ -2,7 +2,7 @@ package com.xiaou.plugin.json2dart
 
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
-import com.xiaou.plugin.json2dart.utils.MapTypeAdapter
+import com.xiaou.plugin.json2dart.utils.CusObjectTypeAdapter
 import com.xiaou.plugin.json2dart.utils.getTypeName
 
 @Suppress("UNCHECKED_CAST")
@@ -38,7 +38,7 @@ fun map2CustomClassDefinition(fileName: String, map: Map<String, Any>): CustomCl
 
 fun parseInputJson(json: String): Map<String, Any> {
     val gson = GsonBuilder()
-        .registerTypeAdapter(object : TypeToken<Map<String, Any>>() {}.type, MapTypeAdapter()).create()
+        .registerTypeAdapter(object : TypeToken<Map<String, Any>>() {}.type, CusObjectTypeAdapter()).create()
     val originalStr = json.trim()
     return if (originalStr.startsWith("[")) {
         val arrayJson = gson.fromJson<List<Any>>(originalStr, object : TypeToken<List<Any>>() {}.type)
