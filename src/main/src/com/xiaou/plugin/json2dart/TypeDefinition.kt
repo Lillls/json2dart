@@ -3,7 +3,7 @@ package com.xiaou.plugin.json2dart
 import com.xiaou.plugin.json2dart.utils.toUpperCaseFirstOne
 import com.xiaou.plugin.json2dart.utils.underline2Hump
 
-abstract class TypeDefinition(val name: String, val typeName: String)
+abstract class TypeDefinition(val name: String, var typeName: String)
 
 /**
  * custom class type

@@ -38,3 +38,12 @@ fun String.hump2Underline(): String {
     matcher.appendTail(sb)
     return sb.toString()
 }
+
+//remove List class name last 's'
+fun String.removeLastS(): String {
+    return if (this.endsWith("s")) {
+        this.substring(0, this.length - 1)
+    } else {
+        this
+    }
+}

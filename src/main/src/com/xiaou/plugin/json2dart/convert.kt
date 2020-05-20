@@ -4,6 +4,7 @@ import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.xiaou.plugin.json2dart.utils.CusObjectTypeAdapter
 import com.xiaou.plugin.json2dart.utils.getTypeName
+import com.xiaou.plugin.json2dart.utils.removeLastS
 
 @Suppress("UNCHECKED_CAST")
 fun map2CustomClassDefinition(fileName: String, map: Map<String, Any>): CustomClassType {
@@ -19,6 +20,7 @@ fun map2CustomClassDefinition(fileName: String, map: Map<String, Any>): CustomCl
                 listValue.firstOrNull()?.apply {
                     if (this is Map<*, *>) {
                         val customClassType = map2CustomClassDefinition(it.key, this as Map<String, Any>)
+                        customClassType.typeName = customClassType.typeName.removeLastS()
                         fieldList.add(ListClassType(it.key, customClassType))
                     } else {
                         fieldList.add(ListClassType(it.key, InternalClassType(it.key, getTypeName(this))))
