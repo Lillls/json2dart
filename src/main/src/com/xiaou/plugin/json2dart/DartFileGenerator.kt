@@ -5,7 +5,7 @@ import com.intellij.openapi.command.CommandProcessor
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiDirectory
 import com.intellij.psi.PsiFileFactory
-import com.jetbrains.lang.dart.DartFileType
+import com.xiaou.plugin.json2dart.dart.DartFileType
 import com.xiaou.plugin.json2dart.utils.DartClassUtils
 
 class DartFileGenerator(private val project: Project, private val directory: PsiDirectory) {
