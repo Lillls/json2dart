@@ -23,7 +23,7 @@ class MyInputValidator : InputValidator {
     override fun checkInput(inputString: String): Boolean {
         return try {
             val classNameLegal = classNameField.text.trim().isNotBlank()
-            val jsonElement = JsonParser.parseString(inputString)
+            val jsonElement = JsonParser().parse(inputString)
 
             (jsonElement.isJsonObject || jsonElement.isJsonArray) && classNameLegal
         } catch (e: JsonSyntaxException) {
