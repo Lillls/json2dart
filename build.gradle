@@ -5,7 +5,7 @@ plugins {
 }
 
 group 'com.xiaoyu'
-version '2020.1'
+version '2019.2'
 
 sourceCompatibility = 1.8
 
@@ -20,8 +20,8 @@ dependencies {
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    version '2020.1'
-    plugins += 'Dart:201.6668.9'
+    version '2019.2.3'
+    plugins += 'Dart:192.5728.98'
 }
 
 sourceSets {

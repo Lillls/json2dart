@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>com.xiaoyu.Json2Dart</id>
     <name>JSON to Dart Plus</name>
-    <vendor email="im.lixiaoyu@gmail.com" url="https://www.cmcm.com/">CheetahMobile</vendor>
+    <vendor email="im.lixiaoyu@gmail.com"/>
 
     <description><![CDATA[
     <h3> A plugin that can convert json into a dart file that conforms to the json_serializable rule</h3>
